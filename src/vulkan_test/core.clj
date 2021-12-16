@@ -30,8 +30,8 @@
   (Callbacks/glfwFreeCallbacks window-handle)
   (GLFW/glfwDestroyWindow window-handle))
 
-(defn -main
-  [& _args]
+(defn -main [& _args]
+
   (cider-repl/start-cider-nrepl)
   (initialize-glfw)
 
