@@ -1,8 +1,11 @@
 (ns vulkan-test.main-thread
   (:require [vulkan-test.queue :as queue]))
 
+(def should-terminate?-atom (atom false))
+(def command-queue (queue/queue))
+(def result-queue (queue/queue))
 
-(defn- start-command-loop [poll-timeout run-on-every-poll should-terminate?-atom command-queue result-queue]
+(defn start-command-loop [poll-timeout run-on-every-poll]
   (loop [function nil]
     (run-on-every-poll)
 
@@ -17,17 +20,7 @@
       (recur (queue/take command-queue
                          poll-timeout)))))
 
-(defn enter-main-thread-command-loop [poll-timeout run-on-every-poll]
-  (def should-terminate?-atom (atom false))
-  (def command-queue (queue/queue))
-  (def result-queue (queue/queue))
-  (start-command-loop poll-timeout
-                      run-on-every-poll
-                      should-terminate?-atom
-                      command-queue
-                      result-queue))
-
-(defn terminate-main-thread-command-loop []
+(defn terminate-command-loop []
   (reset! should-terminate?-atom true))
 
 (defn run-in-main-thread [function]

@@ -35,8 +35,7 @@
   (cider-repl/start-cider-nrepl)
   (initialize-glfw)
 
-  (main-thread/enter-main-thread-command-loop 500
-                                              poll-events)
+  (main-thread/start-command-loop 500 poll-events)
 
   (terminate-glfw)
   (System/exit 0))
@@ -47,6 +46,6 @@
                                                                 100 100)))
   (main-thread/in-main-thread (GLFW/glfwWindowShouldClose window-handle))
   (main-thread/in-main-thread (destroy-window window-handle))
-  (main-thread/terminate-main-thread-command-loop)
+  (main-thread/terminate-command-loop)
 
   )
