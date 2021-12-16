@@ -47,7 +47,7 @@
 
     (when (not @should-terminate?-atom)
       (recur (queue/take command-queue
-                         100)))))
+                         500)))))
 
 (defn start-main-command-loop []
   (def should-terminate?-atom (atom false))
@@ -99,36 +99,4 @@
   (in-main-thread (destroy-window window-handle))
   (terminate-main-command-loop)
 
-
-  (run-in-main-thread (fn []
-                        #_(GLFW/glfwInit)
-                        (GLFW/glfwWindowHint GLFW/GLFW_CLIENT_API GLFW/GLFW_NO_API)
-                        (def window-handle (GLFW/glfwCreateWindow 100 100 "Vulkan Test" MemoryUtil/NULL MemoryUtil/NULL))))
-
-  (.start (Thread. (fn []
-                     (start-main-command-loop))))
-
-  (run-in-main-thread (fn [] (println "hello")))
-
-  (queue/put queue (fn []
-                     (println "hello")))
-
-
-  (println "thread is" (.getId (Thread/currentThread)))
-  (GLFW/glfwInit)
-  (GLFWVulkan/glfwVulkanSupported)
-  (.width (GLFW/glfwGetVideoMode (GLFW/glfwGetPrimaryMonitor)))
-  (import [org.lwjgl.glfw GLFW])
-  VK11/vkAllocateCommandBuffers
-  (System/getenv "PATH")
-  (System/getenv "VK_ICD_FILENAMES")
-
-
-  (GLFW/glfwWindowHint GLFW/GLFW_CLIENT_API GLFW/GLFW_NO_API)
-
-  (def window-handle (GLFW/glfwCreateWindow 100 100 "Vulkan Test" MemoryUtil/NULL MemoryUtil/NULL))
   )
-
-
-
-;; TODO: add running?-atom to command loop so that the program can terminate by setting it to false
